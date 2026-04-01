@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Canteen Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body.light-mode { background-color: #f8f9fa; color: #212529; }
+        body.dark-mode { background-color: #212529; color: #f8f9fa; }
+        .card { margin-bottom: 20px; }
+        .theme-toggle { position: fixed; top: 10px; right: 20px; cursor: pointer; }
+    </style>
+</head>
+<body class="light-mode">
+<div class="container my-4">
+
+    <h1 class="mb-4 text-center">🍽️ Smart Canteen Dashboard</h1>
+    <div class="theme-toggle btn btn-secondary">Toggle Theme</div>
+
+    <!-- Prediction Input -->
+    <div class="card p-3">
+        <h4>📝 Predict Meals & Waste</h4>
+        <form method="POST" class="row g-3">
+            <div class="col-md-3">
+                <label>Attendance</label>
+                <input type="number" name="attendance" class="form-control" value="{{ attendance }}" min="0">
+            </div>
+            <div class="col-md-3">
+                <label>Holiday</label>
+                <select name="holiday" class="form-select">
+                    <option {% if holiday=='No' %}selected{% endif %}>No</option>
+                    <option {% if holiday=='Yes' %}selected{% endif %}>Yes</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label>Menu Type</label>
+                <select name="menu" class="form-select">
+                    <option {% if menu_type=='Regular' %}selected{% endif %}>Regular</option>
+                    <option {% if menu_type=='Special' %}selected{% endif %}>Special</option>
+                    <option {% if menu_type=='Festival' %}selected{% endif %}>Festival</option>
+                </select>
+            </div>
+            <div class="col-md-3 d-flex align-items-end">
+                <button type="submit" class="btn btn-primary w-100">Predict</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- KPIs -->
+    <div class="row text-center">
+        <div class="col-md-4">
+            <div class="card p-3 bg-info text-white">👨‍🎓 Attendance: {{ attendance }}</div>
+        </div>
+        <div class="col-md-4">
+            <div class="card p-3 bg-success text-white">🍛 Predicted Meals: {{ predicted_meals }}</div>
+        </div>
+        <div class="col-md-4">
+            <div class="card p-3 {% if status=='High ⚠️' %}bg-danger{% elif status=='Moderate ⚡' %}bg-warning{% else %}bg-success{% endif %} text-white">
+                🗑️ Predicted Waste: {{ predicted_waste }} <br> Status: {{ status }}
+            </div>
+        </div>
+    </div>
+
+    <!-- Charts -->
+    <div class="card p-3">
+        <h4>📊 Trends</h4>
+        <canvas id="trendChart"></canvas>
+    </div>
+
+    <!-- Past Data Table -->
+    <div class="card p-3">
+        <h4>📜 Past Records</h4>
+        <table class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Day</th>
+                    <th>Attendance</th>
+                    <th>Menu</th>
+                    <th>Meal Time</th>
+                    <th>Meals</th>
+                    <th>Waste</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in df_past %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ row.day }}</td>
+                    <td>{{ row.attendance }}</td>
+                    <td>{{ row.menu }}</td>
+                    <td>{{ row.meal_time }}</td>
+                    <td>{{ row.meals }}</td>
+                    <td>{{ row.waste }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    const ctx = document.getElementById('trendChart').getContext('2d');
+    const trendChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Attendance', 'Predicted Meals', 'Predicted Waste'],
+            datasets: [{
+                label: 'Values',
+                data: [{{ attendance }}, {{ predicted_meals }}, {{ predicted_waste }}],
+                backgroundColor: ['#0d6efd','#198754','#dc3545']
+            }]
+        },
+        options: { responsive: true }
+    });
+
+    // Theme toggle
+    const toggleBtn = document.querySelector('.theme-toggle');
+    toggleBtn.addEventListener('click', () => {
+        document.body.classList.toggle('light-mode');
+        document.body.classList.toggle('dark-mode');
+    });
+</script>
+</body>
+</html>
