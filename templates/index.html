@@ -42,7 +42,6 @@
       --card-shadow: 0 2px 32px rgba(0,0,0,0.4);
     }
 
-    /* ─── RESET & BASE ───────────────────────────────────── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
@@ -57,7 +56,6 @@
       overflow-x: hidden;
     }
 
-    /* ─── GRAIN OVERLAY ──────────────────────────────────── */
     body::before {
       content: '';
       position: fixed; inset: 0;
@@ -67,7 +65,6 @@
       z-index: 0;
     }
 
-    /* ─── LAYOUT ─────────────────────────────────────────── */
     .wrap {
       max-width: 1100px;
       margin: 0 auto;
@@ -75,7 +72,6 @@
       position: relative; z-index: 1;
     }
 
-    /* ─── HEADER ─────────────────────────────────────────── */
     .site-header {
       display: flex;
       align-items: flex-start;
@@ -100,17 +96,9 @@
       color: var(--text);
       letter-spacing: -0.02em;
     }
-    h1 em {
-      font-style: italic;
-      color: var(--accent);
-    }
-    .subtitle {
-      color: var(--text-mute);
-      margin-top: 8px;
-      font-size: 14px;
-    }
+    h1 em { font-style: italic; color: var(--accent); }
+    .subtitle { color: var(--text-mute); margin-top: 8px; font-size: 14px; }
 
-    /* ─── THEME TOGGLE ───────────────────────────────────── */
     .theme-btn {
       flex-shrink: 0;
       display: flex;
@@ -132,7 +120,6 @@
     .theme-btn .icon { font-size: 16px; transition: transform 0.4s; }
     [data-theme="dark"] .theme-btn .icon { transform: rotate(180deg); }
 
-    /* ─── CARDS ──────────────────────────────────────────── */
     .card {
       background: var(--surface);
       border: 1px solid var(--border);
@@ -159,7 +146,6 @@
       font-size: 16px;
     }
 
-    /* ─── PREDICTION FORM ────────────────────────────────── */
     .predict-form {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -194,6 +180,11 @@
       border-color: var(--accent);
       box-shadow: 0 0 0 3px rgba(192,108,45,0.12);
     }
+    .field input[readonly] {
+      cursor: default;
+      opacity: 0.75;
+      font-size: 13px;
+    }
     .btn-predict {
       width: 100%;
       padding: 13px 20px;
@@ -212,7 +203,6 @@
     .btn-predict:hover { opacity: 0.88; transform: translateY(-1px); }
     .btn-predict:active { transform: translateY(0); }
 
-    /* ─── KPI ROW ────────────────────────────────────────── */
     .kpi-row {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -254,11 +244,7 @@
       line-height: 1;
       color: var(--text);
     }
-    .kpi-sub {
-      font-size: 12px;
-      color: var(--text-mute);
-      margin-top: 6px;
-    }
+    .kpi-sub { font-size: 12px; color: var(--text-mute); margin-top: 6px; }
     .kpi-emoji {
       position: absolute;
       top: 18px; right: 18px;
@@ -280,22 +266,12 @@
     .status-mod    { background: rgba(192,144,48,0.12); color: var(--warn); }
     .status-low    { background: rgba(61,122,92,0.12);  color: var(--accent2); }
 
-    /* ─── SECTION DIVIDER ────────────────────────────────── */
     .section-gap { margin-top: 32px; }
 
-    /* ─── CHART ──────────────────────────────────────────── */
-    .chart-wrap {
-      position: relative;
-      height: 280px;
-    }
+    .chart-wrap { position: relative; height: 280px; }
 
-    /* ─── TABLE ──────────────────────────────────────────── */
     .table-scroll { overflow-x: auto; margin: 0 -4px; }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 13.5px;
-    }
+    table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
     thead th {
       background: var(--surface2);
       color: var(--text-mute);
@@ -307,15 +283,17 @@
       text-align: left;
       border-bottom: 1px solid var(--border);
     }
-    tbody tr {
-      border-bottom: 1px solid var(--border);
-      transition: background 0.15s;
-    }
+    tbody tr { border-bottom: 1px solid var(--border); transition: background 0.15s; }
     tbody tr:hover { background: var(--surface2); }
-    tbody td {
-      padding: 12px 14px;
-      color: var(--text);
+    tbody td { padding: 12px 14px; color: var(--text); }
+
+    tbody tr.pred-row { background: rgba(192,108,45,0.04); }
+    tbody tr.pred-row td:first-child::before {
+      content: '★ ';
+      color: var(--accent);
+      font-size: 10px;
     }
+
     .badge {
       display: inline-block;
       padding: 2px 9px;
@@ -326,8 +304,9 @@
     .badge-regular  { background: rgba(45,111,160,0.12); color: var(--info); }
     .badge-special  { background: rgba(192,108,45,0.12); color: var(--accent); }
     .badge-festival { background: rgba(61,122,92,0.12);  color: var(--accent2); }
+    .badge-no       { background: rgba(122,110,95,0.12); color: var(--text-mute); }
+    .badge-yes      { background: rgba(61,122,92,0.12);  color: var(--accent2); }
 
-    /* ─── FOOTER BAR ─────────────────────────────────────── */
     .footer-bar {
       display: flex;
       align-items: center;
@@ -345,7 +324,23 @@
       font-size: 14px;
     }
 
-    /* ─── STAGGER ANIMATION ──────────────────────────────── */
+    .pred-log-banner {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(192,108,45,0.08);
+      border: 1px solid rgba(192,108,45,0.2);
+      border-radius: 10px;
+      padding: 10px 16px;
+      font-size: 13px;
+      color: var(--accent);
+      margin-bottom: 16px;
+    }
+    .pred-log-banner span { font-weight: 600; }
+
+    /* Loading spinner shown while form submits */
+    .btn-loading { opacity: 0.7; cursor: not-allowed; }
+
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(18px); }
       to   { opacity: 1; transform: translateY(0); }
@@ -357,7 +352,12 @@
     .anim:nth-child(4) { animation-delay: 0.26s; }
     .anim:nth-child(5) { animation-delay: 0.33s; }
 
-    /* ─── RESPONSIVE ─────────────────────────────────────── */
+    @keyframes rowIn {
+      from { opacity: 0; background: rgba(192,108,45,0.15); }
+      to   { opacity: 1; background: rgba(192,108,45,0.04); }
+    }
+    .pred-row { animation: rowIn 0.6s ease both; }
+
     @media (max-width: 680px) {
       .kpi-row { grid-template-columns: 1fr 1fr; }
       .kpi-row .kpi:last-child { grid-column: 1 / -1; }
@@ -369,7 +369,6 @@
       .kpi-row .kpi:last-child { grid-column: auto; }
     }
 
-    /* ─── SELECT ARROW ───────────────────────────────────── */
     .field { position: relative; }
     .field .select-wrap { position: relative; }
     .field .select-wrap::after {
@@ -392,7 +391,7 @@
     <div class="header-left">
       <p class="eyebrow">Analytics Platform</p>
       <h1>Smart <em>Mess</em> Analytics</h1>
-      <p class="subtitle">Predict meals, reduce waste — one serving at a time.</p>
+      <p class="subtitle">Predict meals, reduce waste - one serving at a time.</p>
     </div>
     <button class="theme-btn" id="themeToggle" aria-label="Toggle theme">
       <span class="icon" id="themeIcon">☀️</span>
@@ -400,24 +399,23 @@
     </button>
   </header>
 
-  <!-- PREDICTION FORM -->
+  <!-- PREDICTION FORM — method POST sends to Flask -->
   <div class="card anim section-gap" style="margin-bottom:0;">
     <p class="card-title">
       <span class="icon-badge">📝</span>
       Predict Meals &amp; Waste
     </p>
-    <form method="POST" class="predict-form" id="predictForm">
+    <form class="predict-form" id="predictForm" method="POST" action="/">
       <div class="field">
         <label for="attendance">Attendance</label>
-        <input type="number" id="attendance" name="attendance" class="form-control"
-               value="{{ attendance | default(320) }}" min="0" placeholder="e.g. 320" />
+        <input type="number" id="attendance" name="attendance" value="{{ attendance }}" min="0" placeholder="e.g. 320" />
       </div>
       <div class="field">
         <label for="holiday">Holiday</label>
         <div class="select-wrap">
           <select id="holiday" name="holiday">
-            <option>No</option>
-            <option>Yes</option>
+            <option {% if holiday == 'No' %}selected{% endif %}>No</option>
+            <option {% if holiday == 'Yes' %}selected{% endif %}>Yes</option>
           </select>
         </div>
       </div>
@@ -425,39 +423,45 @@
         <label for="menu">Menu Type</label>
         <div class="select-wrap">
           <select id="menu" name="menu">
-            <option>Regular</option>
-            <option>Special</option>
-            <option>Festival</option>
+            <option {% if menu_type == 'Regular' %}selected{% endif %}>Regular</option>
+            <option {% if menu_type == 'Special' %}selected{% endif %}>Special</option>
+            <option {% if menu_type == 'Festival' %}selected{% endif %}>Festival</option>
           </select>
         </div>
       </div>
+      <!-- Hidden fields so Flask knows the day and meal_time -->
+      <input type="hidden" name="day" id="hiddenDay" value="{{ day }}" />
+      <input type="hidden" name="meal_time" id="hiddenMealTime" value="{{ meal_time }}" />
       <div class="field">
         <label>&nbsp;</label>
-        <button type="submit" class="btn-predict">Run Prediction →</button>
+        <button type="submit" class="btn-predict" id="btnPredict">Run Prediction →</button>
       </div>
     </form>
   </div>
 
-  <!-- KPI ROW -->
+  <!-- KPI ROW — values injected by Flask via Jinja -->
   <div class="kpi-row section-gap">
     <div class="kpi kpi-blue anim">
       <p class="kpi-label">Attendance</p>
-      <p class="kpi-value" id="kpiAttendance">320</p>
+      <p class="kpi-value">{{ attendance }}</p>
       <p class="kpi-sub">Students present today</p>
       <span class="kpi-emoji">👨‍🎓</span>
     </div>
     <div class="kpi kpi-green anim">
       <p class="kpi-label">Predicted Meals</p>
-      <p class="kpi-value" id="kpiMeals">288</p>
+      <p class="kpi-value">{{ predicted_meals }}</p>
       <p class="kpi-sub">Servings to prepare</p>
       <span class="kpi-emoji">🍛</span>
     </div>
-    <div class="kpi kpi-dynamic anim" id="kpiWasteCard">
+    <div class="kpi kpi-dynamic anim" id="kpiWasteCard"
+         style="--kpi-accent: {% if 'High' in status %}var(--danger){% elif 'Moderate' in status %}var(--warn){% else %}var(--accent2){% endif %};">
       <p class="kpi-label">Predicted Waste</p>
-      <p class="kpi-value" id="kpiWaste">36</p>
+      <p class="kpi-value">{{ predicted_waste }}</p>
       <p class="kpi-sub">Estimated surplus</p>
       <span class="kpi-emoji">🗑️</span>
-      <div id="statusPill" class="status-pill status-low">● Low</div>
+      <div class="status-pill {% if 'High' in status %}status-high{% elif 'Moderate' in status %}status-mod{% else %}status-low{% endif %}">
+        ● {{ status }}
+      </div>
     </div>
   </div>
 
@@ -477,6 +481,9 @@
     <p class="card-title">
       <span class="icon-badge">📜</span>
       Past Records
+      <span style="margin-left:auto;font-family:var(--font-body);font-size:12px;font-weight:400;color:var(--text-mute);">
+        Showing historical data
+      </span>
     </p>
     <div class="table-scroll">
       <table>
@@ -485,122 +492,206 @@
             <th>#</th>
             <th>Day</th>
             <th>Attendance</th>
+            <th>Holiday</th>
             <th>Menu</th>
             <th>Meal Time</th>
             <th>Meals</th>
             <th>Waste</th>
           </tr>
         </thead>
-        <tbody id="pastTableBody">
-          <!-- Populated by JS (or Jinja) -->
-        </tbody>
+        <tbody id="pastTableBody"></tbody>
       </table>
+    </div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-top:18px;gap:12px;flex-wrap:wrap;">
+      <span style="font-size:12px;color:var(--text-mute);">
+        Showing <strong style="color:var(--text);" id="totalCount">0</strong> records &middot; 15 per page
+      </span>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <button id="btnPrev" style="padding:7px 16px;border-radius:8px;border:1px solid var(--border);background:var(--surface2);color:var(--text);font-family:var(--font-body);font-size:13px;cursor:pointer;" disabled>← Prev</button>
+        <span id="pageInfo" style="font-size:13px;color:var(--text-mute);min-width:80px;text-align:center;"></span>
+        <button id="btnNext" style="padding:7px 16px;border-radius:8px;border:1px solid var(--border);background:var(--surface2);color:var(--text);font-family:var(--font-body);font-size:13px;cursor:pointer;">Next →</button>
+      </div>
     </div>
   </div>
 
+ <!-- LOG ACTUAL VALUES CARD -->
+  <div class="card anim section-gap" id="logActualCard">
+    <p class="card-title">
+      <span class="icon-badge">✏️</span>
+      Log Actual Values
+      <span style="font-family:var(--font-body);font-size:12px;font-weight:400;color:var(--text-mute);margin-left:8px;">After service ends - enter what really happened</span>
+    </p>
+
+    {% if actuals %}
+      {% for row in actuals %}
+        {% if row.actual_meals is none or row.actual_meals == '' %}
+        <p style="font-size:13px;color:var(--text-mute);margin-bottom:12px;">Recent predictions awaiting actual values:</p>
+        <form class="predict-form" method="POST" action="/log_actual" style="margin-bottom:12px;padding:14px;background:var(--surface2);border-radius:10px;">
+          <div class="field">
+            <label>Timestamp</label>
+            <input type="text" readonly value="{{ row.timestamp }}" name="timestamp" style="font-size:12px;" />
+          </div>
+          <div class="field">
+            <label>Actual Meals Served</label>
+            <input type="number" name="actual_meals" min="0" placeholder="e.g. 280" required />
+          </div>
+          <div class="field">
+            <label>Actual Waste (portions)</label>
+            <input type="number" name="actual_waste" min="0" placeholder="e.g. 22" required />
+          </div>
+          <div class="field">
+            <label>&nbsp;</label>
+            <button type="submit" class="btn-predict" style="background:var(--accent2);box-shadow:0 4px 16px rgba(61,122,92,0.28);">Save Actual →</button>
+          </div>
+        </form>
+        {% endif %}
+      {% endfor %}
+    {% endif %}
+
+    <!-- Manual entry form — always visible -->
+    <p style="font-size:13px;color:var(--text-mute);margin:16px 0 12px;">Or enter manually:</p>
+    <form class="predict-form" method="POST" action="/log_actual">
+      <div class="field">
+        <label for="log_ts">Prediction Timestamp</label>
+        <input type="text" id="log_ts" name="timestamp" placeholder="YYYY-MM-DD HH:MM:SS" />
+      </div>
+      <div class="field">
+        <label for="actual_meals">Actual Meals Served</label>
+        <input type="number" id="actual_meals" name="actual_meals" min="0" placeholder="e.g. 280" required />
+      </div>
+      <div class="field">
+        <label for="actual_waste">Actual Waste (portions)</label>
+        <input type="number" id="actual_waste" name="actual_waste" min="0" placeholder="e.g. 22" required />
+      </div>
+      <div class="field">
+        <label>&nbsp;</label>
+        <button type="submit" class="btn-predict" style="background:var(--accent2);box-shadow:0 4px 16px rgba(61,122,92,0.28);">Save Actual →</button>
+      </div>
+    </form>
+
+    <p style="margin-top:14px;font-size:12px;color:var(--text-mute);">
+      💡 Saving actuals automatically appends verified rows to <code>simulated_data.csv</code> — re-run <code>train_model.py</code> periodically to improve the model with real data.
+    </p>
+  </div>
+
+  {% if efficiency is not none %}
+  <!-- EFFICIENCY CARD -->
+  <div class="card anim section-gap">
+    <p class="card-title">
+      <span class="icon-badge">📈</span>
+      Overall Efficiency
+    </p>
+    <p style="font-family:var(--font-head);font-size:2.5rem;font-weight:700;color:var(--accent2);">{{ efficiency }}%</p>
+    <p style="font-size:13px;color:var(--text-mute);margin-top:6px;">Meals consumed vs prepared (based on logged actuals)</p>
+  </div>
+  {% endif %}
+
   <!-- FOOTER -->
   <footer class="footer-bar">
-    <span><strong>Smart Mess Analytics</strong> — Canteen Intelligence System</span>
-    <span>© 2025 · Built with 💛</span>
+    <span><strong>Smart Mess Analytics</strong> - Canteen Intelligence System</span>
+    <span>© 2026 · Built with 💛</span>
   </footer>
 
-</div><!-- /wrap -->
+</div>
 
 <script>
-  /* ── SAMPLE PAST DATA (replace with Jinja loop in production) ── */
-  const pastData = [
-    { day: 'Monday',    attendance: 340, menu: 'Regular',  meal_time: 'Lunch',  meals: 306, waste: 34 },
-    { day: 'Tuesday',   attendance: 310, menu: 'Special',  meal_time: 'Lunch',  meals: 289, waste: 21 },
-    { day: 'Wednesday', attendance: 360, menu: 'Regular',  meal_time: 'Lunch',  meals: 320, waste: 40 },
-    { day: 'Thursday',  attendance: 290, menu: 'Festival', meal_time: 'Dinner', meals: 278, waste: 12 },
-    { day: 'Friday',    attendance: 200, menu: 'Regular',  meal_time: 'Lunch',  meals: 175, waste: 25 },
-    { day: 'Saturday',  attendance: 150, menu: 'Special',  meal_time: 'Lunch',  meals: 140, waste: 10 },
+  /* ── Historical data from Flask ── */
+  const historicalData = [
+    {% for r in df_past %}
+    {day:'{{ r.day }}', attendance:{{ r.attendance }}, holiday:{{ r.holiday }}, menu:'{{ r.menu }}', meal_time:'{{ r.meal_time }}', meals:{{ r.meals }}, waste:{{ r.waste }}},
+    {% endfor %}
   ];
 
-  /* ── POPULATE TABLE ── */
-  const tbody = document.getElementById('pastTableBody');
-  pastData.forEach((r, i) => {
-    const cls = r.menu === 'Regular' ? 'badge-regular' : r.menu === 'Special' ? 'badge-special' : 'badge-festival';
-    tbody.innerHTML += `
-      <tr>
-        <td>${i+1}</td>
+  /* ── PAGINATED TABLE ── */
+  const PAGE_SIZE = 15;
+  let currentPage = 1;
+
+  function holidayBadge(val) {
+    if (val === 1 || val === 'Yes') return '<span class="badge badge-yes">Yes</span>';
+    return '<span class="badge badge-no">No</span>';
+  }
+  function menuBadge(menu) {
+    const cls = menu === 'Regular' ? 'badge-regular' : menu === 'Special' ? 'badge-special' : 'badge-festival';
+    return `<span class="badge ${cls}">${menu}</span>`;
+  }
+
+  function renderTable(page) {
+    const data  = historicalData;
+    const tbody = document.getElementById('pastTableBody');
+    const start = (page - 1) * PAGE_SIZE;
+    const slice = data.slice(start, start + PAGE_SIZE);
+    tbody.innerHTML = '';
+    slice.forEach((r, i) => {
+      tbody.innerHTML += `<tr>
+        <td>${start + i + 1}</td>
         <td>${r.day}</td>
         <td>${r.attendance}</td>
-        <td><span class="badge ${cls}">${r.menu}</span></td>
+        <td>${holidayBadge(r.holiday)}</td>
+        <td>${menuBadge(r.menu)}</td>
         <td>${r.meal_time}</td>
         <td>${r.meals}</td>
         <td>${r.waste}</td>
       </tr>`;
-  });
+    });
+    const totalPages = Math.ceil(data.length / PAGE_SIZE);
+    document.getElementById('totalCount').textContent = data.length;
+    document.getElementById('pageInfo').textContent   = `Page ${page} of ${totalPages}`;
+    document.getElementById('btnPrev').disabled = page === 1;
+    document.getElementById('btnNext').disabled = page === totalPages;
+  }
+
+  renderTable(1);
+  document.getElementById('btnPrev').addEventListener('click', () => { currentPage--; renderTable(currentPage); });
+  document.getElementById('btnNext').addEventListener('click', () => { currentPage++; renderTable(currentPage); });
 
   /* ── CHART ── */
+  const DAY_ORDER = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
   let trendChart;
 
+  function aggregateByDay(data) {
+    const agg = {};
+    DAY_ORDER.forEach(d => { agg[d] = {attendance:0, meals:0, waste:0, count:0}; });
+    data.forEach(r => {
+      if (!agg[r.day]) return;
+      agg[r.day].attendance += r.attendance;
+      agg[r.day].meals      += r.meals;
+      agg[r.day].waste      += r.waste;
+      agg[r.day].count++;
+    });
+    return DAY_ORDER.map(d => ({
+      day: d,
+      attendance: agg[d].count ? Math.round(agg[d].attendance / agg[d].count) : 0,
+      meals:      agg[d].count ? Math.round(agg[d].meals / agg[d].count) : 0,
+      waste:      agg[d].count ? Math.round(agg[d].waste / agg[d].count) : 0,
+    }));
+  }
+
   function buildChart() {
-    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    const isDark     = document.documentElement.getAttribute('data-theme') === 'dark';
     const gridColor  = isDark ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.06)';
     const labelColor = isDark ? '#9a8e7a' : '#7a6e5f';
-
     if (trendChart) trendChart.destroy();
-
+    const chartData = aggregateByDay(historicalData);
     const ctx = document.getElementById('trendChart').getContext('2d');
-    const labels = pastData.map(r => r.day);
     trendChart = new Chart(ctx, {
       type: 'bar',
       data: {
-        labels,
+        labels: chartData.map(r => r.day),
         datasets: [
-          {
-            label: 'Attendance',
-            data: pastData.map(r => r.attendance),
-            backgroundColor: isDark ? 'rgba(91,160,208,0.7)' : 'rgba(45,111,160,0.65)',
-            borderRadius: 6, borderSkipped: false,
-          },
-          {
-            label: 'Meals Served',
-            data: pastData.map(r => r.meals),
-            backgroundColor: isDark ? 'rgba(78,168,118,0.7)' : 'rgba(61,122,92,0.65)',
-            borderRadius: 6, borderSkipped: false,
-          },
-          {
-            label: 'Waste',
-            data: pastData.map(r => r.waste),
-            backgroundColor: isDark ? 'rgba(224,96,96,0.7)' : 'rgba(184,64,64,0.65)',
-            borderRadius: 6, borderSkipped: false,
-          },
+          { label:'Avg Attendance', data:chartData.map(r=>r.attendance), backgroundColor: isDark?'rgba(91,160,208,0.78)':'rgba(45,111,160,0.72)', borderRadius:6, borderSkipped:false },
+          { label:'Avg Meals',      data:chartData.map(r=>r.meals),      backgroundColor: isDark?'rgba(78,168,118,0.78)':'rgba(61,122,92,0.72)',  borderRadius:6, borderSkipped:false },
+          { label:'Avg Waste',      data:chartData.map(r=>r.waste),      backgroundColor: isDark?'rgba(224,96,96,0.78)':'rgba(184,64,64,0.72)',   borderRadius:6, borderSkipped:false },
         ]
       },
       options: {
-        responsive: true,
-        maintainAspectRatio: false,
+        responsive: true, maintainAspectRatio: false,
         plugins: {
-          legend: {
-            labels: {
-              color: labelColor,
-              font: { family: "'DM Sans', sans-serif", size: 12 },
-              boxWidth: 12, boxHeight: 12, borderRadius: 3,
-            }
-          },
-          tooltip: {
-            backgroundColor: isDark ? '#2a2318' : '#fff',
-            titleColor: isDark ? '#f0e8d8' : '#1c1710',
-            bodyColor: labelColor,
-            borderColor: isDark ? 'rgba(180,155,110,0.15)' : 'rgba(180,155,110,0.25)',
-            borderWidth: 1,
-            padding: 12,
-            titleFont: { family: "'Playfair Display', serif", size: 13 },
-            bodyFont: { family: "'DM Sans', sans-serif", size: 12 },
-          }
+          legend: { labels: { color:labelColor, font:{family:"'DM Sans',sans-serif",size:12}, boxWidth:12, boxHeight:12, borderRadius:3 } },
+          tooltip: { backgroundColor:isDark?'#2a2318':'#fff', titleColor:isDark?'#f0e8d8':'#1c1710', bodyColor:labelColor, borderColor:isDark?'rgba(180,155,110,0.15)':'rgba(180,155,110,0.25)', borderWidth:1, padding:12, titleFont:{family:"'Playfair Display',serif",size:13}, bodyFont:{family:"'DM Sans',sans-serif",size:12}, callbacks:{label:(i)=>` ${i.dataset.label}: ${i.raw}`} }
         },
         scales: {
-          x: {
-            grid: { color: gridColor },
-            ticks: { color: labelColor, font: { family: "'DM Sans', sans-serif", size: 12 } }
-          },
-          y: {
-            grid: { color: gridColor },
-            ticks: { color: labelColor, font: { family: "'DM Sans', sans-serif", size: 12 } }
-          }
+          x: { grid:{color:gridColor}, ticks:{color:labelColor,font:{family:"'DM Sans',sans-serif",size:12}} },
+          y: { grid:{color:gridColor}, ticks:{color:labelColor,font:{family:"'DM Sans',sans-serif",size:12}} }
         }
       }
     });
@@ -608,51 +699,41 @@
   buildChart();
 
   /* ── THEME TOGGLE ── */
-  const themeToggle = document.getElementById('themeToggle');
-  const themeIcon   = document.getElementById('themeIcon');
-  const themeLabel  = document.getElementById('themeLabel');
-
-  themeToggle.addEventListener('click', () => {
+  document.getElementById('themeToggle').addEventListener('click', () => {
     const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
     document.documentElement.setAttribute('data-theme', isDark ? 'light' : 'dark');
-    themeIcon.textContent  = isDark ? '☀️' : '🌙';
-    themeLabel.textContent = isDark ? 'Light' : 'Dark';
+    document.getElementById('themeIcon').textContent  = isDark ? '☀️' : '🌙';
+    document.getElementById('themeLabel').textContent = isDark ? 'Light' : 'Dark';
     buildChart();
   });
 
-  /* ── LIVE FORM PREDICTION (demo logic) ── */
-  document.getElementById('predictForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    const att     = parseInt(document.getElementById('attendance').value) || 0;
-    const holiday = document.getElementById('holiday').value;
-    const menu    = document.getElementById('menu').value;
+  /* ── SET hidden day/meal_time before form submits to Flask ── */
+  function getDayName(d = new Date()) {
+    return ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'][d.getDay()];
+  }
+  function getMealTime(d = new Date()) {
+    const h = d.getHours();
+    if (h < 10) return 'Breakfast';
+    if (h < 15) return 'Lunch';
+    return 'Dinner';
+  }
 
-    const factor  = holiday === 'Yes' ? 0.6 : menu === 'Festival' ? 0.95 : menu === 'Special' ? 0.92 : 0.88;
-    const meals   = Math.round(att * factor);
-    const waste   = Math.round(att * (1 - factor) * 0.9);
-
-    document.getElementById('kpiAttendance').textContent = att;
-    document.getElementById('kpiMeals').textContent      = meals;
-    document.getElementById('kpiWaste').textContent      = waste;
-
-    const wasteRatio = waste / (att || 1);
-    const pill = document.getElementById('statusPill');
-    const card = document.getElementById('kpiWasteCard');
-
-    if (wasteRatio > 0.2) {
-      pill.className  = 'status-pill status-high';
-      pill.textContent = '● High';
-      card.style.setProperty('--kpi-accent', 'var(--danger)');
-    } else if (wasteRatio > 0.1) {
-      pill.className  = 'status-pill status-mod';
-      pill.textContent = '● Moderate';
-      card.style.setProperty('--kpi-accent', 'var(--warn)');
-    } else {
-      pill.className  = 'status-pill status-low';
-      pill.textContent = '● Low';
-      card.style.setProperty('--kpi-accent', 'var(--accent2)');
-    }
+  document.getElementById('predictForm').addEventListener('submit', function() {
+    const now = new Date();
+    document.getElementById('hiddenDay').value      = getDayName(now);
+    document.getElementById('hiddenMealTime').value = getMealTime(now);
+    // No e.preventDefault() — form submits normally to Flask
+    document.getElementById('btnPredict').textContent = 'Running…';
+    document.getElementById('btnPredict').classList.add('btn-loading');
   });
+  /* ── Auto-fill log_ts from last prediction timestamp ── */
+  {% if actuals %}
+    {% for row in actuals %}
+      {% if loop.last %}
+        document.getElementById('log_ts').value = '{{ row.timestamp }}';
+      {% endif %}
+    {% endfor %}
+  {% endif %}
 </script>
 </body>
 </html>
