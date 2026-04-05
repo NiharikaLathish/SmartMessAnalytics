@@ -8,7 +8,6 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
   <style>
-    /* ─── TOKENS ─────────────────────────────────────────── */
     :root {
       --bg:        #faf8f4;
       --surface:   #ffffff;
@@ -98,6 +97,19 @@
     }
     h1 em { font-style: italic; color: var(--accent); }
     .subtitle { color: var(--text-mute); margin-top: 8px; font-size: 14px; }
+    .ist-time-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 10px;
+      padding: 4px 12px;
+      border-radius: 999px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      font-size: 12px;
+      color: var(--text-mute);
+      font-weight: 500;
+    }
 
     .theme-btn {
       flex-shrink: 0;
@@ -225,8 +237,8 @@
       top: 0; left: 0; right: 0;
       height: 3px;
     }
-    .kpi.kpi-blue::before   { background: var(--info); }
-    .kpi.kpi-green::before  { background: var(--accent2); }
+    .kpi.kpi-blue::before    { background: var(--info); }
+    .kpi.kpi-green::before   { background: var(--accent2); }
     .kpi.kpi-dynamic::before { background: var(--kpi-accent, var(--accent)); }
 
     .kpi-label {
@@ -262,13 +274,12 @@
       font-weight: 600;
       letter-spacing: 0.06em;
     }
-    .status-high   { background: rgba(184,64,64,0.12);  color: var(--danger); }
-    .status-mod    { background: rgba(192,144,48,0.12); color: var(--warn); }
-    .status-low    { background: rgba(61,122,92,0.12);  color: var(--accent2); }
+    .status-high { background: rgba(184,64,64,0.12);  color: var(--danger); }
+    .status-mod  { background: rgba(192,144,48,0.12); color: var(--warn); }
+    .status-low  { background: rgba(61,122,92,0.12);  color: var(--accent2); }
 
     .section-gap { margin-top: 32px; }
-
-    .chart-wrap { position: relative; height: 280px; }
+    .chart-wrap  { position: relative; height: 280px; }
 
     .table-scroll { overflow-x: auto; margin: 0 -4px; }
     table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
@@ -287,13 +298,6 @@
     tbody tr:hover { background: var(--surface2); }
     tbody td { padding: 12px 14px; color: var(--text); }
 
-    tbody tr.pred-row { background: rgba(192,108,45,0.04); }
-    tbody tr.pred-row td:first-child::before {
-      content: '★ ';
-      color: var(--accent);
-      font-size: 10px;
-    }
-
     .badge {
       display: inline-block;
       padding: 2px 9px;
@@ -301,11 +305,11 @@
       font-size: 11px;
       font-weight: 600;
     }
-    .badge-regular  { background: rgba(45,111,160,0.12); color: var(--info); }
-    .badge-special  { background: rgba(192,108,45,0.12); color: var(--accent); }
-    .badge-festival { background: rgba(61,122,92,0.12);  color: var(--accent2); }
-    .badge-no       { background: rgba(122,110,95,0.12); color: var(--text-mute); }
-    .badge-yes      { background: rgba(61,122,92,0.12);  color: var(--accent2); }
+    .badge-regular  { background: rgba(45,111,160,0.12);  color: var(--info); }
+    .badge-special  { background: rgba(192,108,45,0.12);  color: var(--accent); }
+    .badge-festival { background: rgba(61,122,92,0.12);   color: var(--accent2); }
+    .badge-no       { background: rgba(122,110,95,0.12);  color: var(--text-mute); }
+    .badge-yes      { background: rgba(61,122,92,0.12);   color: var(--accent2); }
 
     .footer-bar {
       display: flex;
@@ -324,22 +328,34 @@
       font-size: 14px;
     }
 
-    .pred-log-banner {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      background: rgba(192,108,45,0.08);
-      border: 1px solid rgba(192,108,45,0.2);
-      border-radius: 10px;
-      padding: 10px 16px;
-      font-size: 13px;
-      color: var(--accent);
-      margin-bottom: 16px;
-    }
-    .pred-log-banner span { font-weight: 600; }
-
-    /* Loading spinner shown while form submits */
     .btn-loading { opacity: 0.7; cursor: not-allowed; }
+
+    /* ── Efficiency card ── */
+    .efficiency-big {
+      font-family: var(--font-head);
+      font-size: 3rem;
+      font-weight: 700;
+      color: var(--accent2);
+      line-height: 1;
+      margin-bottom: 10px;
+    }
+    .efficiency-source-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+    .src-actual    { background: rgba(61,122,92,0.12);  color: var(--accent2); }
+    .src-predicted { background: rgba(192,108,45,0.12); color: var(--accent); }
+
+    /* efficiency colour by value */
+    .eff-high   { color: var(--accent2); }   /* ≥ 80% green  */
+    .eff-medium { color: var(--warn);    }   /* 50-79% amber */
+    .eff-low    { color: var(--danger);  }   /* < 50% red    */
 
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(18px); }
@@ -351,12 +367,6 @@
     .anim:nth-child(3) { animation-delay: 0.19s; }
     .anim:nth-child(4) { animation-delay: 0.26s; }
     .anim:nth-child(5) { animation-delay: 0.33s; }
-
-    @keyframes rowIn {
-      from { opacity: 0; background: rgba(192,108,45,0.15); }
-      to   { opacity: 1; background: rgba(192,108,45,0.04); }
-    }
-    .pred-row { animation: rowIn 0.6s ease both; }
 
     @media (max-width: 680px) {
       .kpi-row { grid-template-columns: 1fr 1fr; }
@@ -392,6 +402,7 @@
       <p class="eyebrow">Analytics Platform</p>
       <h1>Smart <em>Mess</em> Analytics</h1>
       <p class="subtitle">Predict meals, reduce waste - one serving at a time.</p>
+      <span class="ist-time-badge">🕐 {{ ist_time }}</span>
     </div>
     <button class="theme-btn" id="themeToggle" aria-label="Toggle theme">
       <span class="icon" id="themeIcon">☀️</span>
@@ -399,7 +410,7 @@
     </button>
   </header>
 
-  <!-- PREDICTION FORM — method POST sends to Flask -->
+  <!-- PREDICTION FORM -->
   <div class="card anim section-gap" style="margin-bottom:0;">
     <p class="card-title">
       <span class="icon-badge">📝</span>
@@ -429,8 +440,7 @@
           </select>
         </div>
       </div>
-      <!-- Hidden fields so Flask knows the day and meal_time -->
-      <input type="hidden" name="day" id="hiddenDay" value="{{ day }}" />
+      <input type="hidden" name="day"       id="hiddenDay"      value="{{ day }}" />
       <input type="hidden" name="meal_time" id="hiddenMealTime" value="{{ meal_time }}" />
       <div class="field">
         <label>&nbsp;</label>
@@ -439,7 +449,7 @@
     </form>
   </div>
 
-  <!-- KPI ROW — values injected by Flask via Jinja -->
+  <!-- KPI ROW -->
   <div class="kpi-row section-gap">
     <div class="kpi kpi-blue anim">
       <p class="kpi-label">Attendance</p>
@@ -465,6 +475,43 @@
     </div>
   </div>
 
+  <!-- OVERALL EFFICIENCY CARD -->
+  <div class="card anim section-gap">
+    <p class="card-title">
+      <span class="icon-badge">📈</span>
+      Overall Efficiency
+    </p>
+
+    {% if overall_efficiency is not none %}
+      {% if efficiency_source == 'actual' %}
+        <span class="efficiency-source-badge src-actual">✅ Based on logged actuals</span>
+      {% else %}
+        <span class="efficiency-source-badge src-predicted">⚡ Based on predicted data</span>
+      {% endif %}
+
+      {% if overall_efficiency >= 80 %}
+        <p class="efficiency-big eff-high">{{ overall_efficiency }}%</p>
+      {% elif overall_efficiency >= 50 %}
+        <p class="efficiency-big eff-medium">{{ overall_efficiency }}%</p>
+      {% else %}
+        <p class="efficiency-big eff-low">{{ overall_efficiency }}%</p>
+      {% endif %}
+
+      <p style="font-size:13px;color:var(--text-mute);">
+        Meals served vs students present
+        {% if efficiency_source == 'actual' %}
+          (actual meals ÷ attendance × 100)
+        {% else %}
+          (predicted meals − waste ÷ attendance × 100)
+        {% endif %}
+      </p>
+    {% else %}
+      <p style="font-family:var(--font-head);font-size:2rem;font-weight:700;color:var(--text-mute);line-height:1;margin-bottom:10px;">N/A</p>
+      <p style="font-size:13px;color:var(--text-mute);">No prediction data yet.</p>
+      <p style="font-size:12px;color:var(--text-mute);margin-top:8px;">💡 Run a prediction first using the form above — efficiency will appear automatically.</p>
+    {% endif %}
+  </div>
+
   <!-- CHARTS -->
   <div class="card anim section-gap">
     <p class="card-title">
@@ -481,22 +528,14 @@
     <p class="card-title">
       <span class="icon-badge">📜</span>
       Past Records
-      <span style="margin-left:auto;font-family:var(--font-body);font-size:12px;font-weight:400;color:var(--text-mute);">
-        Showing historical data
-      </span>
+      <span style="margin-left:auto;font-family:var(--font-body);font-size:12px;font-weight:400;color:var(--text-mute);">Showing historical data</span>
     </p>
     <div class="table-scroll">
       <table>
         <thead>
           <tr>
-            <th>#</th>
-            <th>Day</th>
-            <th>Attendance</th>
-            <th>Holiday</th>
-            <th>Menu</th>
-            <th>Meal Time</th>
-            <th>Meals</th>
-            <th>Waste</th>
+            <th>#</th><th>Day</th><th>Attendance</th><th>Holiday</th>
+            <th>Menu</th><th>Meal Time</th><th>Meals</th><th>Waste</th>
           </tr>
         </thead>
         <tbody id="pastTableBody"></tbody>
@@ -514,7 +553,7 @@
     </div>
   </div>
 
- <!-- LOG ACTUAL VALUES CARD -->
+  <!-- LOG ACTUAL VALUES CARD -->
   <div class="card anim section-gap" id="logActualCard">
     <p class="card-title">
       <span class="icon-badge">✏️</span>
@@ -548,7 +587,6 @@
       {% endfor %}
     {% endif %}
 
-    <!-- Manual entry form — always visible -->
     <p style="font-size:13px;color:var(--text-mute);margin:16px 0 12px;">Or enter manually:</p>
     <form class="predict-form" method="POST" action="/log_actual">
       <div class="field">
@@ -568,23 +606,10 @@
         <button type="submit" class="btn-predict" style="background:var(--accent2);box-shadow:0 4px 16px rgba(61,122,92,0.28);">Save Actual →</button>
       </div>
     </form>
-
     <p style="margin-top:14px;font-size:12px;color:var(--text-mute);">
       💡 Saving actuals automatically appends verified rows to <code>simulated_data.csv</code> — re-run <code>train_model.py</code> periodically to improve the model with real data.
     </p>
   </div>
-
-  {% if efficiency is not none %}
-  <!-- EFFICIENCY CARD -->
-  <div class="card anim section-gap">
-    <p class="card-title">
-      <span class="icon-badge">📈</span>
-      Overall Efficiency
-    </p>
-    <p style="font-family:var(--font-head);font-size:2.5rem;font-weight:700;color:var(--accent2);">{{ efficiency }}%</p>
-    <p style="font-size:13px;color:var(--text-mute);margin-top:6px;">Meals consumed vs prepared (based on logged actuals)</p>
-  </div>
-  {% endif %}
 
   <!-- FOOTER -->
   <footer class="footer-bar">
@@ -595,14 +620,12 @@
 </div>
 
 <script>
-  /* ── Historical data from Flask ── */
   const historicalData = [
     {% for r in df_past %}
     {day:'{{ r.day }}', attendance:{{ r.attendance }}, holiday:{{ r.holiday }}, menu:'{{ r.menu }}', meal_time:'{{ r.meal_time }}', meals:{{ r.meals }}, waste:{{ r.waste }}},
     {% endfor %}
   ];
 
-  /* ── PAGINATED TABLE ── */
   const PAGE_SIZE = 15;
   let currentPage = 1;
 
@@ -616,10 +639,9 @@
   }
 
   function renderTable(page) {
-    const data  = historicalData;
     const tbody = document.getElementById('pastTableBody');
     const start = (page - 1) * PAGE_SIZE;
-    const slice = data.slice(start, start + PAGE_SIZE);
+    const slice = historicalData.slice(start, start + PAGE_SIZE);
     tbody.innerHTML = '';
     slice.forEach((r, i) => {
       tbody.innerHTML += `<tr>
@@ -633,11 +655,11 @@
         <td>${r.waste}</td>
       </tr>`;
     });
-    const totalPages = Math.ceil(data.length / PAGE_SIZE);
-    document.getElementById('totalCount').textContent = data.length;
+    const totalPages = Math.max(Math.ceil(historicalData.length / PAGE_SIZE), 1);
+    document.getElementById('totalCount').textContent = historicalData.length;
     document.getElementById('pageInfo').textContent   = `Page ${page} of ${totalPages}`;
     document.getElementById('btnPrev').disabled = page === 1;
-    document.getElementById('btnNext').disabled = page === totalPages;
+    document.getElementById('btnNext').disabled = page >= totalPages;
   }
 
   renderTable(1);
@@ -650,7 +672,7 @@
 
   function aggregateByDay(data) {
     const agg = {};
-    DAY_ORDER.forEach(d => { agg[d] = {attendance:0, meals:0, waste:0, count:0}; });
+    DAY_ORDER.forEach(d => { agg[d] = {attendance:0,meals:0,waste:0,count:0}; });
     data.forEach(r => {
       if (!agg[r.day]) return;
       agg[r.day].attendance += r.attendance;
@@ -659,39 +681,39 @@
       agg[r.day].count++;
     });
     return DAY_ORDER.map(d => ({
-      day: d,
+      day:        d,
       attendance: agg[d].count ? Math.round(agg[d].attendance / agg[d].count) : 0,
-      meals:      agg[d].count ? Math.round(agg[d].meals / agg[d].count) : 0,
-      waste:      agg[d].count ? Math.round(agg[d].waste / agg[d].count) : 0,
+      meals:      agg[d].count ? Math.round(agg[d].meals      / agg[d].count) : 0,
+      waste:      agg[d].count ? Math.round(agg[d].waste      / agg[d].count) : 0,
     }));
   }
 
   function buildChart() {
-    const isDark     = document.documentElement.getAttribute('data-theme') === 'dark';
-    const gridColor  = isDark ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.06)';
-    const labelColor = isDark ? '#9a8e7a' : '#7a6e5f';
+    const isDark    = document.documentElement.getAttribute('data-theme') === 'dark';
+    const gridColor = isDark ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.06)';
+    const lblColor  = isDark ? '#9a8e7a' : '#7a6e5f';
     if (trendChart) trendChart.destroy();
-    const chartData = aggregateByDay(historicalData);
+    const cd  = aggregateByDay(historicalData);
     const ctx = document.getElementById('trendChart').getContext('2d');
     trendChart = new Chart(ctx, {
       type: 'bar',
       data: {
-        labels: chartData.map(r => r.day),
+        labels: cd.map(r => r.day),
         datasets: [
-          { label:'Avg Attendance', data:chartData.map(r=>r.attendance), backgroundColor: isDark?'rgba(91,160,208,0.78)':'rgba(45,111,160,0.72)', borderRadius:6, borderSkipped:false },
-          { label:'Avg Meals',      data:chartData.map(r=>r.meals),      backgroundColor: isDark?'rgba(78,168,118,0.78)':'rgba(61,122,92,0.72)',  borderRadius:6, borderSkipped:false },
-          { label:'Avg Waste',      data:chartData.map(r=>r.waste),      backgroundColor: isDark?'rgba(224,96,96,0.78)':'rgba(184,64,64,0.72)',   borderRadius:6, borderSkipped:false },
+          { label:'Avg Attendance', data:cd.map(r=>r.attendance), backgroundColor: isDark?'rgba(91,160,208,0.78)':'rgba(45,111,160,0.72)',  borderRadius:6, borderSkipped:false },
+          { label:'Avg Meals',      data:cd.map(r=>r.meals),      backgroundColor: isDark?'rgba(78,168,118,0.78)':'rgba(61,122,92,0.72)',   borderRadius:6, borderSkipped:false },
+          { label:'Avg Waste',      data:cd.map(r=>r.waste),      backgroundColor: isDark?'rgba(224,96,96,0.78)' :'rgba(184,64,64,0.72)',   borderRadius:6, borderSkipped:false },
         ]
       },
       options: {
-        responsive: true, maintainAspectRatio: false,
-        plugins: {
-          legend: { labels: { color:labelColor, font:{family:"'DM Sans',sans-serif",size:12}, boxWidth:12, boxHeight:12, borderRadius:3 } },
-          tooltip: { backgroundColor:isDark?'#2a2318':'#fff', titleColor:isDark?'#f0e8d8':'#1c1710', bodyColor:labelColor, borderColor:isDark?'rgba(180,155,110,0.15)':'rgba(180,155,110,0.25)', borderWidth:1, padding:12, titleFont:{family:"'Playfair Display',serif",size:13}, bodyFont:{family:"'DM Sans',sans-serif",size:12}, callbacks:{label:(i)=>` ${i.dataset.label}: ${i.raw}`} }
+        responsive:true, maintainAspectRatio:false,
+        plugins:{
+          legend:{ labels:{ color:lblColor, font:{family:"'DM Sans',sans-serif",size:12}, boxWidth:12, boxHeight:12, borderRadius:3 } },
+          tooltip:{ backgroundColor:isDark?'#2a2318':'#fff', titleColor:isDark?'#f0e8d8':'#1c1710', bodyColor:lblColor, borderColor:isDark?'rgba(180,155,110,0.15)':'rgba(180,155,110,0.25)', borderWidth:1, padding:12, titleFont:{family:"'Playfair Display',serif",size:13}, bodyFont:{family:"'DM Sans',sans-serif",size:12}, callbacks:{label:(i)=>` ${i.dataset.label}: ${i.raw}`} }
         },
-        scales: {
-          x: { grid:{color:gridColor}, ticks:{color:labelColor,font:{family:"'DM Sans',sans-serif",size:12}} },
-          y: { grid:{color:gridColor}, ticks:{color:labelColor,font:{family:"'DM Sans',sans-serif",size:12}} }
+        scales:{
+          x:{ grid:{color:gridColor}, ticks:{color:lblColor,font:{family:"'DM Sans',sans-serif",size:12}} },
+          y:{ grid:{color:gridColor}, ticks:{color:lblColor,font:{family:"'DM Sans',sans-serif",size:12}} }
         }
       }
     });
@@ -707,26 +729,29 @@
     buildChart();
   });
 
-  /* ── SET hidden day/meal_time before form submits to Flask ── */
-  function getDayName(d = new Date()) {
-    return ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'][d.getDay()];
-  }
-  function getMealTime(d = new Date()) {
-    const h = d.getHours();
-    if (h < 10) return 'Breakfast';
-    if (h < 15) return 'Lunch';
-    return 'Dinner';
+  /* ── IST day/meal_time sent on submit ── */
+  function getISTparts() {
+    const now = new Date();
+    // IST = UTC + 5h30m
+    const ist = new Date(now.getTime() + (5.5 * 60 * 60 * 1000));
+    const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+    const day  = days[ist.getUTCDay()];
+    const h    = ist.getUTCHours();
+    let meal_time = 'Lunch';
+    if (h >= 7  && h <= 10) meal_time = 'Breakfast';
+    else if (h >= 11 && h <= 14) meal_time = 'Lunch';
+    else if (h >= 18 && h <= 21) meal_time = 'Dinner';
+    return { day, meal_time };
   }
 
   document.getElementById('predictForm').addEventListener('submit', function() {
-    const now = new Date();
-    document.getElementById('hiddenDay').value      = getDayName(now);
-    document.getElementById('hiddenMealTime').value = getMealTime(now);
-    // No e.preventDefault() — form submits normally to Flask
+    const { day, meal_time } = getISTparts();
+    document.getElementById('hiddenDay').value      = day;
+    document.getElementById('hiddenMealTime').value = meal_time;
     document.getElementById('btnPredict').textContent = 'Running…';
     document.getElementById('btnPredict').classList.add('btn-loading');
   });
-  /* ── Auto-fill log_ts from last prediction timestamp ── */
+
   {% if actuals %}
     {% for row in actuals %}
       {% if loop.last %}
